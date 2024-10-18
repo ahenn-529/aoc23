@@ -26,7 +26,7 @@ def process_game_rows(numGamesToRead):
     #after processing the requested number of games/reveals, return the results
     return processedGames
 
-#initial params
+#initial params for part 1
 redCubeCount = 12
 greenCubeCount = 13
 blueCubeCount = 14
@@ -64,5 +64,38 @@ for game in games:
 print(f"The sum of the numbers of each possible games is {sum}")
 
 
-            
-            
+#initial params for part 2
+powerSum = 0
+games = process_game_rows(100)       
+
+
+#for each game that has been processed...
+for game in games: 
+    #and for each set of cubes drawn in that game...
+    drawPower = 0
+    redCubeMin = 0
+    greenCubeMin = 0
+    blueCubeMin = 0
+    for draw in game:
+        #and finally, each color of cube drawn...
+        for cubes in draw:
+            #figure out what color the cubes are
+            red = cubes.find("red")
+            blue = cubes.find("blue")
+            green = cubes.find("green")
+            #based on the color, remove the alpha characters, and check to see if it is a valid draw
+            if red > 0:
+                cubes = cubes.strip("red\n")
+                drawCount = int(cubes)
+                if drawCount > redCubeMin: redCubeMin = drawCount
+            if blue > 0:
+                cubes = cubes.strip("blue\n")
+                drawCount = int(cubes)
+                if drawCount > blueCubeMin: blueCubeMin = drawCount
+            if green > 0:
+                cubes = cubes.strip("green\n")
+                drawCount = int(cubes)
+                if drawCount > greenCubeMin: greenCubeMin = drawCount
+    drawPower = redCubeMin * blueCubeMin * greenCubeMin
+    powerSum += drawPower
+print(f"The sum of the power of these sets is {powerSum}")    
